@@ -1,17 +1,16 @@
 /* styles.css */
 
-/* Basic Reset */
+/* Global Styles */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
 }
 
 /* Header and Navigation */
@@ -48,12 +47,29 @@ main {
     margin: auto;
 }
 
-/* Homepage Styles */
+/* Headings */
 h1 {
+    color: #333;
     text-align: center;
     margin-bottom: 20px;
 }
 
+h2 {
+    color: #555;
+    margin-top: 20px;
+}
+
+/* Lists */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+/* Category List Styles */
 .category-list {
     display: flex;
     justify-content: center;
@@ -89,10 +105,7 @@ h1 {
     border-radius: 5px;
 }
 
-.product h2 {
-    margin: 10px 0;
-}
-
+.product h2,
 .product p {
     margin: 10px 0;
 }
@@ -110,9 +123,21 @@ h1 {
 }
 
 /* Checkout Page Styles */
+.checkout-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.cart-items {
+    flex: 1;
+    margin-right: 20px;
+}
+
 .checkout-form {
     max-width: 500px;
-    margin: auto;
+    flex: 1;
     padding: 20px;
     background: #ffffff;
     border-radius: 5px;
@@ -132,6 +157,21 @@ h1 {
     border-radius: 5px;
 }
 
+.checkout-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.checkout-form button:hover {
+    background-color: #4cae4c;
+}
+
 /* Confirmation Page Styles */
 .confirmation-message {
     text-align: center;
@@ -143,6 +183,7 @@ h1 {
     max-width: 600px;
 }
 
+/* Footer Styles */
 footer {
     text-align: center;
     padding: 10px;
@@ -162,8 +203,7 @@ footer {
 
     .category-list {
         flex-direction: column;
-        align-items: center;
-    }
+        align-items: center }
 
     .cart-item {
         flex-direction: column;

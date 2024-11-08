@@ -1,0 +1,38 @@
+{% extends 'ecommerce_app/base.html' %}
+{% load custom_filters %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<h1>Checkout</h1>
+
+<div class="checkout-container">
+    <div class="cart-items">
+        <h2>Your Cart Items:</h2>
+        <ul>
+            {% for product_id, quantity in cart.items.items %}
+                <li>
+                    {% with product=products|get_item:product_id %}
+                        {{ product.name }} - Quantity: {{ quantity }} - Price: ${{ product.price }}
+                    {% endwith %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <form method="POST" class="checkout-form">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required>
+
+        <label for="payment_info">Payment Information:</label>
+        <input type="text" id="payment_info" name="payment_info" required>
+
+        <button type="submit">Complete Purchase</button>
+    </form>
+</div>
+
+{% endblock %}

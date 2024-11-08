@@ -1,10 +1,8 @@
-from django.shortcuts import render
-from .forms import CheckoutForm
-
-# Create your views here.
 from django.shortcuts import render, redirect
+from .forms import CheckoutForm
 from .models import Product, Category
 from django.http import HttpResponse
+import uuid
 
 # Homepage View
 def homepage(request):
@@ -29,19 +27,47 @@ def cart_page(request):
     products = Product.objects.filter(id__in=cart.keys())
     return render(request, 'ecommerce_app/cart_page.html', {'cart': cart, 'products': products})
 
-# Checkout Page View
-from .forms import CheckoutForm
-
 def checkout_page(request):
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
         if form.is_valid():
-            # Process the order here
-            return redirect('confirmation_page')
+            # Generate a unique confirmation number
+            confirmation_number = str(uuid.uuid4())  # Generate a unique UUID
+
+            # Process the order here (e.g., save to the database)
+            # You can also store the confirmation number in the database if needed
+
+            # Clear the cart after the order is placed
+            request.session['cart'] = {}
+
+            # Prepare the confirmation page context
+            cart_items = request.session.get('cart', {})
+            cart_summary = []
+            for product_id, quantity in cart_items.items():
+                product = Product.objects.get(id=product_id)  # Fetch product details
+                cart_summary.append({
+                    'product_name': product.name,
+                    'quantity': quantity,
+                    'price': product.price
+                })
+
+            return render(request, 'ecommerce_app/confirmation_page.html', {
+                'cart': {'items': cart_summary},
+                'confirmation_number': confirmation_number
+            })
     else:
         form = CheckoutForm()
-    return render(request, 'ecommerce_app/checkout_page.html', {'form': form})
 
+    # Fetch products for the cart display
+    cart_items = request.session.get('cart', {})
+    products = Product.objects.filter(id__in=cart_items.keys())  # Get products in cart
+
+    return render(request, 'ecommerce_app/checkout_page.html', {
+        'form': form,
+        'cart': {'items': cart_items},
+        'products': products
+    })
+    
 # Confirmation Page View
 def confirmation_page(request):
     return render(request, 'ecommerce_app/confirmation_page.html')
