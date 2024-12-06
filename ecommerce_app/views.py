@@ -72,20 +72,5 @@ def checkout_page(request):
 def confirmation_page(request):
     return render(request, 'ecommerce_app/confirmation_page.html')
 
-#ADMIN 
-# view to list orders
-def order_list(request):
-    orders = Order.objects.all()
-    return render(request, 'order_list.html', {'orders': orders})
 
-# view to update orders
-def update_order_status(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    if request.method == 'POST':
-        status = request.POST.get('status')
-        if status in dict(Order.STATUS_CHOICES):
-            order.status = status
-            order.save()
-            return JsonResponse({'message': 'Order status updated successfully'})
-    return JsonResponse({'error': 'Invalid request'}, status=400)
 
